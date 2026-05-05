@@ -69,10 +69,12 @@ public abstract class BaseAgent {
             for (int i = 0; i < maxSteps && state != AgentState.FINISHED; i++) {
                 int stepNumber = i + 1;
                 currentStep = stepNumber;
-                log.info("Executing step {}/{}", stepNumber, maxSteps);
+                //log.info("Executing step {}/{}", stepNumber, maxSteps);
                 // 单步执行
                 String stepResult = step();
-                String result = "Step " + stepNumber + ": " + stepResult;
+                //String result = "Step " + stepNumber + ": " + stepResult;
+                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                log.info(result);
                 results.add(result);
             }
             // 检查是否超出步骤限制
@@ -128,10 +130,13 @@ public abstract class BaseAgent {
                 for (int i = 0; i < maxSteps && state != AgentState.FINISHED; i++) {
                     int stepNumber = i + 1;
                     currentStep = stepNumber;
-                    log.info("Executing step {}/{}", stepNumber, maxSteps);
+                    //log.info("Executing step {}/{}", stepNumber, maxSteps);
                     // 单步执行
                     String stepResult = step();
-                    String result = "Step " + stepNumber + ": " + stepResult;
+                    //String result = "Step " + stepNumber + ": " + stepResult ;
+                    //这里优化输出结果的格式，让它更像是一个智能体在执行任务时的思考过程，而不是输出一大堆乱起八糟的东西
+                    String result = "步骤" + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                    log.info(result);
                     results.add(result);
                     // 输出当前每一步的结果到 SSE
                     sseEmitter.send(result);

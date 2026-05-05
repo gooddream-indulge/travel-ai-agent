@@ -129,9 +129,10 @@ public class ToolCallAgent extends ReActAgent {
             setState(AgentState.FINISHED);
         }
         String results = toolResponseMessage.getResponses().stream()
-                .map(response -> "工具 " + response.name() + " 返回的结果：" + response.responseData())
+//                .map(response -> "工具 " + response.name() + " 返回的结果：" + response.responseData())
+                .map(response -> "工具 " + response.name())
                 .collect(Collectors.joining("\n"));
-        log.info(results);
+        //log.info(results);
         return results;
     }
 }

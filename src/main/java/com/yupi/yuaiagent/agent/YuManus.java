@@ -33,10 +33,10 @@ public class YuManus extends ToolCallAgent {
                 如果你想在任何时候停止交互，请使用“terminate”工具/函数调用。
                 """;
         this.setNextStepPrompt(NEXT_STEP_PROMPT);
-        this.setMaxSteps(20);
+        this.setMaxSteps(10);
         // 初始化 AI 对话客户端
         ChatClient chatClient = ChatClient.builder(dashscopeChatModel)
-                .defaultAdvisors(new MyLoggerAdvisor())
+                //.defaultAdvisors(new MyLoggerAdvisor())
                 .build();
         this.setChatClient(chatClient);
     }
