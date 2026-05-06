@@ -28,7 +28,17 @@ public class PDFGenerationTool {
             @ToolParam(description = "Name of the file to save the generated PDF") String fileName,
             @ToolParam(description = "Content to be included in the PDF") String content) {
         String fileDir = FileConstant.FILE_SAVE_DIR + "/pdf";
-        String filePath = fileDir + "/" + fileName;
+        // 原始文件名路径（保留逻辑）
+        // String filePath = fileDir + "/" + fileName;
+        // 生成带时间戳的文件名
+        String safeFileName = (fileName == null || fileName.trim().isEmpty()) ? "document.pdf" : fileName.trim();
+        int dot = safeFileName.lastIndexOf('.');
+        String base = (dot > 0) ? safeFileName.substring(0, dot) : safeFileName;
+        String ext = (dot > 0) ? safeFileName.substring(dot) : "";
+        String ts = java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        String fileNameWithTs = base + "_" + ts + ext;
+        String filePath = fileDir + "/" + fileNameWithTs;
         try {
             // 创建目录
             FileUtil.mkdir(fileDir);
@@ -51,7 +61,8 @@ public class PDFGenerationTool {
             }
             // 原本本地返回逻辑保留为注释
             // return "PDF generated successfully to: " + filePath;
-            String url = ossStorageService.uploadAndDeleteLocalFile(filePath, "pdf", fileName);
+            // String url = ossStorageService.uploadAndDeleteLocalFile(filePath, "pdf", fileName);
+            String url = ossStorageService.uploadAndDeleteLocalFile(filePath, "pdf", fileNameWithTs);
             return "PDF uploaded successfully to: " + url;
         } catch (Exception e) {
             return "Error generating PDF: " + e.getMessage();

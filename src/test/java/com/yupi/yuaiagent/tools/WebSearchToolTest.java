@@ -1,5 +1,6 @@
 package com.yupi.yuaiagent.tools;
 
+import com.esotericsoftware.minlog.Log;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +17,9 @@ class WebSearchToolTest {
     @Test
     void searchWeb() {
         WebSearchTool webSearchTool = new WebSearchTool(searchApiKey);
-        String query = "程序员鱼皮编程导航 codefather.cn";
+        String query = "南昌大学";
         String result = webSearchTool.searchWeb(query);
+        Log.info(result);
         Assertions.assertNotNull(result);
     }
 }

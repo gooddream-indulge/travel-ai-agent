@@ -74,11 +74,23 @@ public abstract class BaseAgent {
                 String stepResult = step();
                 //String result = "Step " + stepNumber + ": " + stepResult;
 //                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
-                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。\n";
+//                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。\n";
+//                String toolCallSummary = extractToolCallSummary();
+//                if (toolCallSummary != null) {
+//                    result = result + "超级旅小智正在思考：" + toolCallSummary;
+//                }
+
+                String result = " ";
                 String toolCallSummary = extractToolCallSummary();
                 if (toolCallSummary != null) {
-                    result = result + "超级旅小智正在思考：" + toolCallSummary;
+                    result = "步骤" + stepNumber + ": " + "超级旅小智正在思考：" + toolCallSummary + "\n";
                 }
+                if (!stepResult.contains("doTerminate")) {
+                    result = result + "超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                }else{
+                    result = result + "超级旅小智结束了思考，完成任务。";
+                }
+
 //                String extraUrl = extractToolUrl(stepResult);
 //                if (extraUrl != null) {
 //                    result = result + " 超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
@@ -145,16 +157,18 @@ public abstract class BaseAgent {
                     //String result = "Step " + stepNumber + ": " + stepResult ;
                     //这里优化输出结果的格式，让它更像是一个智能体在执行任务时的思考过程，而不是输出一大堆乱起八糟的东西
 //                    String result = "步骤" + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
-                    String result = "步骤" + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。\n";
+                    String result = " ";
                     String toolCallSummary = extractToolCallSummary();
                     if (toolCallSummary != null) {
-                        result = result + "超级旅小智正在思考：" + toolCallSummary;
+                        result = "步骤" + stepNumber + ": " + "超级旅小智正在思考：" + toolCallSummary + "\n";
                     }
-//                    String extraUrl = extractToolUrl(stepResult);
-//                    if (extraUrl != null) {
-//                        result = result + " 超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
-//                    }
-                    log.info(result);
+                    if (!stepResult.contains("doTerminate")) {
+                        result = result + "超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                    }else{
+                        result = result + "超级旅小智结束了思考，完成任务。";
+                    }
+
+                    //log.info(result);
                     results.add(result);
                     // 输出当前每一步的结果到 SSE
                     sseEmitter.send(result);
@@ -213,19 +227,19 @@ public abstract class BaseAgent {
         // 子类可以重写此方法来清理资源
     }
 
-//    private String extractToolUrl(String stepResult) {
-//        if (StrUtil.isBlank(stepResult)) {
-//            return null;
-//        }
-//        if (!stepResult.contains("FileOperationTool") && !stepResult.contains("PDFGenerationTool")) {
-//            return null;
-//        }
-//        int urlStart = stepResult.indexOf("http");
-//        if (urlStart < 0) {
-//            return null;
-//        }
-//        return stepResult.substring(urlStart).trim();
-//    }
+    private String extractToolUrl(String stepResult) {
+        if (StrUtil.isBlank(stepResult)) {
+            return null;
+        }
+        if (!stepResult.contains("doTerminate")) {
+            return null;
+        }
+        int urlStart = stepResult.indexOf("http");
+        if (urlStart < 0) {
+            return null;
+        }
+        return stepResult.substring(urlStart).trim();
+    }
 
     private String extractToolCallSummary() {
         if (!(this instanceof ToolCallAgent)) {
