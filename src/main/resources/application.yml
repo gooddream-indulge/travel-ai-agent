@@ -64,3 +64,10 @@ search-api:
 logging:
   level:
     org.springframework.ai: DEBUG
+oss:
+  endpoint: ${OSS_ENDPOINT:}
+  bucket: ${OSS_BUCKET:}
+  access-key-id: ${OSS_ACCESS_KEY_ID:}
+  access-key-secret: ${OSS_ACCESS_KEY_SECRET:}
+  base-dir: ${OSS_BASE_DIR:ai-agent}
+  public-url-prefix: ${OSS_PUBLIC_URL_PREFIX:}

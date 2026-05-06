@@ -1,5 +1,6 @@
 package com.yupi.yuaiagent.tools;
 
+import com.yupi.yuaiagent.storage.OssStorageService;
 import org.springframework.ai.support.ToolCallbacks;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,13 +17,13 @@ public class ToolRegistration {
     private String searchApiKey;
 
     @Bean
-    public ToolCallback[] allTools() {
-        FileOperationTool fileOperationTool = new FileOperationTool();
+    public ToolCallback[] allTools(OssStorageService ossStorageService) {
+        FileOperationTool fileOperationTool = new FileOperationTool(ossStorageService);
         WebSearchTool webSearchTool = new WebSearchTool(searchApiKey);
         WebScrapingTool webScrapingTool = new WebScrapingTool();
         ResourceDownloadTool resourceDownloadTool = new ResourceDownloadTool();
         TerminalOperationTool terminalOperationTool = new TerminalOperationTool();
-        PDFGenerationTool pdfGenerationTool = new PDFGenerationTool();
+        PDFGenerationTool pdfGenerationTool = new PDFGenerationTool(ossStorageService);
         TerminateTool terminateTool = new TerminateTool();
         return ToolCallbacks.from(
                 fileOperationTool,

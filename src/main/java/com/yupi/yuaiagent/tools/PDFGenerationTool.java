@@ -8,15 +8,20 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.yupi.yuaiagent.constant.FileConstant;
+import com.yupi.yuaiagent.storage.OssStorageService;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
-
-import java.io.IOException;
 
 /**
  * PDF 生成工具
  */
 public class PDFGenerationTool {
+
+    private final OssStorageService ossStorageService;
+
+    public PDFGenerationTool(OssStorageService ossStorageService) {
+        this.ossStorageService = ossStorageService;
+    }
 
     @Tool(description = "Generate a PDF file with given content", returnDirect = false)
     public String generatePDF(
@@ -44,8 +49,11 @@ public class PDFGenerationTool {
                 // 添加段落并关闭文档
                 document.add(paragraph);
             }
-            return "PDF generated successfully to: " + filePath;
-        } catch (IOException e) {
+            // 原本本地返回逻辑保留为注释
+            // return "PDF generated successfully to: " + filePath;
+            String url = ossStorageService.uploadAndDeleteLocalFile(filePath, "pdf", fileName);
+            return "PDF uploaded successfully to: " + url;
+        } catch (Exception e) {
             return "Error generating PDF: " + e.getMessage();
         }
     }
