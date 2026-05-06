@@ -41,6 +41,9 @@ public class ToolCallAgent extends ReActAgent {
     // 禁用 Spring AI 内置的工具调用机制，自己维护选项和消息上下文
     private final ChatOptions chatOptions;
 
+    // 保存最近一次思考的原始文本
+    private String lastAssistantText;
+
     public ToolCallAgent(ToolCallback[] availableTools) {
 //    public ToolCallAgent(ToolCallback[] availableTools, ToolCallback[] mcpTools) {
         super();
@@ -83,12 +86,13 @@ public class ToolCallAgent extends ReActAgent {
             List<AssistantMessage.ToolCall> toolCallList = assistantMessage.getToolCalls();
             // 输出提示信息
             String result = assistantMessage.getText();
-            log.info(getName() + "的思考：" + result);
-            log.info(getName() + "选择了 " + toolCallList.size() + " 个工具来使用");
+            this.lastAssistantText = result;
+            //log.info(getName() + "的思考：" + result);
+            //log.info(getName() + "选择了 " + toolCallList.size() + " 个工具来使用");
             String toolCallInfo = toolCallList.stream()
                     .map(toolCall -> String.format("工具名称：%s，参数：%s", toolCall.name(), toolCall.arguments()))
                     .collect(Collectors.joining("\n"));
-            log.info(toolCallInfo);
+            //log.info(toolCallInfo);
             // 如果不需要调用工具，返回 false
             if (toolCallList.isEmpty()) {
                 // 只有不调用工具时，才需要手动记录助手消息
@@ -101,6 +105,7 @@ public class ToolCallAgent extends ReActAgent {
         } catch (Exception e) {
             log.error(getName() + "的思考过程遇到了问题：" + e.getMessage());
             getMessageList().add(new AssistantMessage("处理时遇到了错误：" + e.getMessage()));
+            this.lastAssistantText = "处理时遇到了错误：" + e.getMessage();
             return false;
         }
     }
@@ -130,7 +135,15 @@ public class ToolCallAgent extends ReActAgent {
         }
         String results = toolResponseMessage.getResponses().stream()
 //                .map(response -> "工具 " + response.name() + " 返回的结果：" + response.responseData())
-                .map(response -> "工具 " + response.name())
+//                .map(response -> "工具 " + response.name())
+                .map(response -> {
+                    String toolName = response.name();
+                    if ("FileOperationTool".equals(toolName) || "PDFGenerationTool".equals(toolName)) {
+                        String responseData = String.valueOf(response.responseData());
+                        return "工具 " + toolName + " 返回的结果：" + responseData;
+                    }
+                    return "工具 " + toolName;
+                })
                 .collect(Collectors.joining("\n"));
         //log.info(results);
         return results;

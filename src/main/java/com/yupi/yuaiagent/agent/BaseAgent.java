@@ -73,7 +73,16 @@ public abstract class BaseAgent {
                 // 单步执行
                 String stepResult = step();
                 //String result = "Step " + stepNumber + ": " + stepResult;
-                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+//                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。\n";
+                String toolCallSummary = extractToolCallSummary();
+                if (toolCallSummary != null) {
+                    result = result + "超级旅小智正在思考：" + toolCallSummary;
+                }
+//                String extraUrl = extractToolUrl(stepResult);
+//                if (extraUrl != null) {
+//                    result = result + " 超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
+//                }
                 log.info(result);
                 results.add(result);
             }
@@ -135,7 +144,16 @@ public abstract class BaseAgent {
                     String stepResult = step();
                     //String result = "Step " + stepNumber + ": " + stepResult ;
                     //这里优化输出结果的格式，让它更像是一个智能体在执行任务时的思考过程，而不是输出一大堆乱起八糟的东西
-                    String result = "步骤" + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+//                    String result = "步骤" + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                    String result = "步骤" + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。\n";
+                    String toolCallSummary = extractToolCallSummary();
+                    if (toolCallSummary != null) {
+                        result = result + "超级旅小智正在思考：" + toolCallSummary;
+                    }
+//                    String extraUrl = extractToolUrl(stepResult);
+//                    if (extraUrl != null) {
+//                        result = result + " 超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
+//                    }
                     log.info(result);
                     results.add(result);
                     // 输出当前每一步的结果到 SSE
@@ -193,5 +211,28 @@ public abstract class BaseAgent {
      */
     protected void cleanup() {
         // 子类可以重写此方法来清理资源
+    }
+
+//    private String extractToolUrl(String stepResult) {
+//        if (StrUtil.isBlank(stepResult)) {
+//            return null;
+//        }
+//        if (!stepResult.contains("FileOperationTool") && !stepResult.contains("PDFGenerationTool")) {
+//            return null;
+//        }
+//        int urlStart = stepResult.indexOf("http");
+//        if (urlStart < 0) {
+//            return null;
+//        }
+//        return stepResult.substring(urlStart).trim();
+//    }
+
+    private String extractToolCallSummary() {
+        if (!(this instanceof ToolCallAgent)) {
+            return null;
+        }
+        ToolCallAgent toolCallAgent = (ToolCallAgent) this;
+        String lastAssistantText = toolCallAgent.getLastAssistantText();
+        return StrUtil.isBlank(lastAssistantText) ? null : lastAssistantText;
     }
 }
