@@ -1,20 +1,32 @@
 package com.yupi.yuaiagent.tools;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import com.esotericsoftware.minlog.Log;
+import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.font.PdfFontFactory.EmbeddingStrategy;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.yupi.yuaiagent.constant.FileConstant;
 import com.yupi.yuaiagent.storage.OssStorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * PDF 生成工具
  */
+@Slf4j
 public class PDFGenerationTool {
 
     private final OssStorageService ossStorageService;
@@ -39,6 +51,7 @@ public class PDFGenerationTool {
                 .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
         String fileNameWithTs = base + "_" + ts + ext;
         String filePath = fileDir + "/" + fileNameWithTs;
+
         try {
             // 创建目录
             FileUtil.mkdir(fileDir);
@@ -49,10 +62,15 @@ public class PDFGenerationTool {
                 // 自定义字体（需要人工下载字体文件到特定目录）
 //                String fontPath = Paths.get("src/main/resources/static/fonts/simsun.ttf")
 //                        .toAbsolutePath().toString();
-//                PdfFont font = PdfFontFactory.createFont(fontPath,
-//                        PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
-                // 使用内置中文字体
-                PdfFont font = PdfFontFactory.createFont("STSongStd-Light", "UniGB-UCS2-H");
+                // 优先使用本地中文字体，缺失时降级到内置字体
+                String fontPath = resolveFontPath();
+                PdfFont font;
+                if (StrUtil.isNotBlank(fontPath) && FileUtil.exist(fontPath)) {
+                    font = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H,
+                            EmbeddingStrategy.PREFER_EMBEDDED);
+                } else {
+                    font = PdfFontFactory.createFont("STSongStd-Light", "UniGB-UCS2-H");
+                }
                 document.setFont(font);
                 // 创建段落
                 Paragraph paragraph = new Paragraph(content);
@@ -67,5 +85,31 @@ public class PDFGenerationTool {
         } catch (Exception e) {
             return "Error generating PDF: " + e.getMessage();
         }
+    }
+
+    private String resolveFontPath() {
+        // 优先读取 classpath 资源中的字体文件
+        String classpathFont = "static/fonts/simhei.ttf";
+        try {
+            ClassPathResource resource = new ClassPathResource(classpathFont);
+            if (resource.exists()) {
+                //log.info("找到字体了");
+                return resource.getFile().getAbsolutePath();
+            }
+        } catch (IOException ignored) {
+            // Ignore: fall back to common system paths.
+        }
+        // 常见系统字体路径（按需补充）
+        List<String> candidates = Arrays.asList(
+                Paths.get("src/main/resources/static/fonts/simsun.ttf").toAbsolutePath().toString(),
+                "C:/Windows/Fonts/simsun.ttc",
+                "C:/Windows/Fonts/simsun.ttf"
+        );
+        for (String candidate : candidates) {
+            if (FileUtil.exist(candidate)) {
+                return candidate;
+            }
+        }
+        return null;
     }
 }

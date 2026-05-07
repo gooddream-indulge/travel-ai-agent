@@ -72,6 +72,8 @@ public abstract class BaseAgent {
                 //log.info("Executing step {}/{}", stepNumber, maxSteps);
                 // 单步执行
                 String stepResult = step();
+
+                //log.info("Step " + stepNumber + ": " + stepResult);
                 //String result = "Step " + stepNumber + ": " + stepResult;
 //                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
 //                String result = "步骤 " + stepNumber + ": " + " 超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。\n";
@@ -85,16 +87,15 @@ public abstract class BaseAgent {
                 if (toolCallSummary != null) {
                     result = "步骤" + stepNumber + ": " + "超级旅小智正在思考：" + toolCallSummary + "\n";
                 }
-                if (!stepResult.contains("doTerminate")) {
-                    result = result + "超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
-                }else{
-                    result = result + "超级旅小智结束了思考，完成任务。";
+                result = result + "超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                if (stepResult.contains("doTerminate"))
+                    result = result + "\n超级旅小智结束了思考，完成任务。";
+
+                String extraUrl = extractToolUrl(stepResult);
+                if (extraUrl != null) {
+                    result = result + "\n超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
                 }
 
-//                String extraUrl = extractToolUrl(stepResult);
-//                if (extraUrl != null) {
-//                    result = result + " 超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
-//                }
                 log.info(result);
                 results.add(result);
             }
@@ -162,13 +163,16 @@ public abstract class BaseAgent {
                     if (toolCallSummary != null) {
                         result = "步骤" + stepNumber + ": " + "超级旅小智正在思考：" + toolCallSummary + "\n";
                     }
-                    if (!stepResult.contains("doTerminate")) {
-                        result = result + "超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
-                    }else{
-                        result = result + "超级旅小智结束了思考，完成任务。";
+                    result = result + "超级旅小智决定使用 " + stepResult + "，正在处理返回的结果。。。";
+                    if (stepResult.contains("doTerminate"))
+                        result = result + "\n超级旅小智结束了思考，完成任务。";
+
+                    String extraUrl = extractToolUrl(stepResult);
+                    if (extraUrl != null) {
+                        result = result + "\n超级旅小智生成了文件，您可以通过此链接下载：" + extraUrl;
                     }
 
-                    //log.info(result);
+                    log.info(result);
                     results.add(result);
                     // 输出当前每一步的结果到 SSE
                     sseEmitter.send(result);
@@ -231,7 +235,7 @@ public abstract class BaseAgent {
         if (StrUtil.isBlank(stepResult)) {
             return null;
         }
-        if (!stepResult.contains("doTerminate")) {
+        if (stepResult.contains("doTerminate")) {
             return null;
         }
         int urlStart = stepResult.indexOf("http");

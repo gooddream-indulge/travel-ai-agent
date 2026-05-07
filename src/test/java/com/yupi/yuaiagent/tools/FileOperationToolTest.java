@@ -3,15 +3,17 @@ package com.yupi.yuaiagent.tools;
 import com.yupi.yuaiagent.storage.OssStorageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class FileOperationToolTest {
 
-
+    @Autowired
+    private OssStorageService ossStorageService;
 
     @Test
-    void readFile(OssStorageService ossStorageService) {
+    void readFile() {
         FileOperationTool fileOperationTool = new FileOperationTool(ossStorageService);
         String fileName = "编程导航.txt";
         String result = fileOperationTool.readFile(fileName);
@@ -19,7 +21,7 @@ class FileOperationToolTest {
     }
 
     @Test
-    void writeFile(OssStorageService ossStorageService) {
+    void writeFile() {
         FileOperationTool fileOperationTool = new FileOperationTool(ossStorageService);
         String fileName = "编程导航.txt";
         String content = "https://www.codefather.cn 程序员编程学习交流社区";

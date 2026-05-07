@@ -22,7 +22,7 @@ public class YuManus extends ToolCallAgent {
 //               super(allTools, mcpToolCallbackProvider == null ? new ToolCallback[0] : mcpToolCallbackProvider.getToolCallbacks());
         this.setName("yuManus");
         String SYSTEM_PROMPT = """
-                你是YuManus，一个全能的人工智能助手，旨在解决用户提出的任何任务。
+                你的名字叫 AI 超级旅小智，一个全能的人工智能助手，旨在解决用户提出的任何任务。
                 您可以使用各种工具来高效地完成复杂的请求。
                 """;
         this.setSystemPrompt(SYSTEM_PROMPT);
