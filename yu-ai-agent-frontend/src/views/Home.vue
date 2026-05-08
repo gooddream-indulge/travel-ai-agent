@@ -1,17 +1,24 @@
 <template>
   <div class="home-container">
+    <div class="hero-scenery" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="mountain mountain-back"></div>
+      <div class="mountain mountain-front"></div>
+      <div class="lake"></div>
+    </div>
     <div class="header">
-      <div class="glitch-wrapper">
-        <h1 class="glitch-title">GoodDream的AI旅小智</h1>
+      <div class="brand-pill">GoodDream Travel AI</div>
+      <div class="title-wrapper">
+        <h1 class="main-title">GoodDream的AI旅小智</h1>
       </div>
       <p class="subtitle">/ 探索AI的无限可能 /</p>
-      <div class="cyber-line"></div>
     </div>
     
     <div class="apps-container">
       <div class="app-card" @click="navigateTo('/travel-master')">
-        <div class="card-glow"></div>
-        <div class="app-icon love-icon">❤️</div>
+        <div class="card-media travel-media">
+          <span>🧭</span>
+        </div>
         <div class="app-info">
           <div class="app-title">AI旅小智</div>
           <div class="app-desc">智能旅行助手，为您提供旅游建议</div>
@@ -23,8 +30,9 @@
       </div>
       
       <div class="app-card" @click="navigateTo('/super-agent')">
-        <div class="card-glow"></div>
-        <div class="app-icon robot-icon">🤖</div>
+        <div class="card-media planner-media">
+          <span>🗺️</span>
+        </div>
         <div class="app-info">
           <div class="app-title">AI超级旅小智</div>
           <div class="app-desc">全能AI智能体，帮您规划完美旅程</div>
@@ -36,10 +44,10 @@
       </div>
     </div>
     
-    <div class="cyber-circles">
-      <div class="circle circle-1"></div>
-      <div class="circle circle-2"></div>
-      <div class="circle circle-3"></div>
+    <div class="travel-notes" aria-hidden="true">
+      <span>Departure</span>
+      <span>Route</span>
+      <span>Memory</span>
     </div>
     
     <AppFooter />
@@ -74,130 +82,130 @@ const navigateTo = (path) => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
-
-/* 全局样式变量 */
-:root {
-  --neon-blue: #00f0ff;
-  --neon-purple: #9000ff;
-  --neon-pink: #ff00d4;
-  --cyber-black: #0a0a12;
-  --cyber-dark: #111122;
-  --cyber-light: #edf7ff;
-}
-
 .home-container {
+  --travel-teal: #0f766e;
+  --travel-mint: #14b8a6;
+  --travel-sand: #fff7ed;
+  --travel-orange: #f97316;
+  --travel-ink: #19333b;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--cyber-dark);
-  background-image: 
-    linear-gradient(0deg, rgba(8, 17, 34, 0.9), rgba(5, 8, 20, 0.9)),
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="1" fill="%23111133" opacity="0.3"/><rect x="0" y="0" width="1" height="100" fill="%23111133" opacity="0.3"/></svg>');
-  background-size: auto, 40px 40px;
+  background:
+    linear-gradient(180deg, rgba(231, 250, 245, 0.96) 0%, rgba(255, 247, 237, 0.9) 52%, #ffffff 100%);
   position: relative;
   overflow: hidden;
+  color: var(--travel-ink);
 }
 
-/* 赛博朋克风格标题 */
+.hero-scenery {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 420px;
+  background:
+    linear-gradient(180deg, #bfeee7 0%, #e7faf5 64%, rgba(255, 247, 237, 0) 100%);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.sun {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  top: 74px;
+  right: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7ad 0%, #fbbf24 72%);
+  box-shadow: 0 0 60px rgba(251, 191, 36, 0.45);
+}
+
+.mountain {
+  position: absolute;
+  bottom: 68px;
+  width: 54vw;
+  height: 210px;
+  clip-path: polygon(0 100%, 28% 38%, 45% 70%, 62% 22%, 100% 100%);
+}
+
+.mountain-back {
+  left: -5vw;
+  background: linear-gradient(135deg, #7dd3c7, #4f9f98);
+  opacity: 0.62;
+}
+
+.mountain-front {
+  right: -8vw;
+  bottom: 50px;
+  height: 250px;
+  background: linear-gradient(135deg, #0f766e, #63b7a8);
+  opacity: 0.78;
+}
+
+.lake {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.26) 0 2px, transparent 2px 18px),
+    linear-gradient(180deg, rgba(20, 184, 166, 0.28), rgba(255, 247, 237, 0));
+}
+
 .header {
-  padding: 70px 20px 50px;
+  padding: 76px 20px 34px;
   text-align: center;
   background-color: transparent;
   position: relative;
   z-index: 2;
 }
 
-.glitch-wrapper {
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  color: var(--travel-teal);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 30px rgba(15, 118, 110, 0.1);
+}
+
+.title-wrapper {
   position: relative;
   display: inline-block;
-  margin-bottom: 20px;
+  margin: 22px 0 16px;
 }
 
-.glitch-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3.2rem;
+.main-title {
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
   font-weight: 700;
-  color: var(--cyber-light);
-  text-shadow: 
-    0 0 5px rgba(0, 240, 255, 0.7),
-    0 0 10px rgba(0, 240, 255, 0.5),
-    0 0 20px rgba(0, 240, 255, 0.3);
-  letter-spacing: 2px;
+  color: #12343b;
+  text-shadow: 0 8px 28px rgba(255, 255, 255, 0.76);
+  letter-spacing: 0;
   position: relative;
-  animation: glitch 3s infinite;
-}
-
-.glitch-title::before,
-.glitch-title::after {
-  content: 'GoodDream的AI旅小智';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.8;
-}
-
-.glitch-title::before {
-  color: var(--neon-pink);
-  z-index: -1;
-  animation: glitch-anim 2s infinite;
-}
-
-.glitch-title::after {
-  color: var(--neon-blue);
-  z-index: -2;
-  animation: glitch-anim-2 3s infinite;
 }
 
 .subtitle {
-  font-family: 'Orbitron', sans-serif;
   font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #42656a;
   max-width: 600px;
   margin: 0 auto 20px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-.cyber-line {
-  height: 2px;
-  width: 80%;
-  max-width: 600px;
-  margin: 0 auto;
-  background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
-  position: relative;
-}
-
-.cyber-line::before,
-.cyber-line::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  background-color: var(--neon-blue);
-  border-radius: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 0 10px 2px var(--neon-blue);
-}
-
-.cyber-line::before {
-  left: 20%;
-}
-
-.cyber-line::after {
-  right: 20%;
+  letter-spacing: 0.08em;
 }
 
 .apps-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px;
+  gap: 28px;
   max-width: 1200px;
-  margin: 60px auto;
+  margin: 34px auto 72px;
   padding: 0 20px;
   flex: 1;
   position: relative;
@@ -205,16 +213,15 @@ const navigateTo = (path) => {
 }
 
 .app-card {
-  width: 340px;
-  background-color: rgba(17, 23, 41, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 
-    0 8px 32px rgba(0, 240, 255, 0.2),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  padding: 30px;
+  width: 360px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  box-shadow: 0 22px 55px rgba(15, 82, 86, 0.16);
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  padding: 18px 18px 24px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -222,54 +229,37 @@ const navigateTo = (path) => {
   overflow: hidden;
 }
 
-.card-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle at center,
-    rgba(var(--neon-blue-rgb), 0.1) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.5s;
-  pointer-events: none;
-}
-
 .app-card:hover {
-  transform: translateY(-15px) scale(1.03);
-  box-shadow: 
-    0 15px 50px rgba(0, 240, 255, 0.3),
-    inset 0 0 0 1px rgba(0, 240, 255, 0.5);
+  transform: translateY(-8px);
+  box-shadow: 0 28px 70px rgba(15, 82, 86, 0.2);
+  border-color: rgba(15, 118, 110, 0.22);
 }
 
-.app-card:hover .card-glow {
-  opacity: 1;
-}
-
-.app-icon {
-  font-size: 4rem;
-  margin-bottom: 25px;
-  width: 90px;
-  height: 90px;
+.card-media {
+  width: 100%;
+  height: 174px;
+  border-radius: 18px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  position: relative;
-  z-index: 1;
+  font-size: 4.2rem;
+  overflow: hidden;
 }
 
-.love-icon {
-  background: linear-gradient(135deg, #ff007a, #ff5722);
-  box-shadow: 0 0 20px rgba(255, 0, 122, 0.5);
+.travel-media {
+  background:
+    radial-gradient(circle at 18% 20%, #fef3c7 0 10%, transparent 11%),
+    linear-gradient(160deg, rgba(20, 184, 166, 0.18), rgba(15, 118, 110, 0.72)),
+    linear-gradient(22deg, transparent 0 44%, rgba(255, 255, 255, 0.45) 45% 50%, transparent 51%),
+    #a7f3d0;
 }
 
-.robot-icon {
-  background: linear-gradient(135deg, #00b2ff, #4f56ff);
-  box-shadow: 0 0 20px rgba(0, 178, 255, 0.5);
+.planner-media {
+  background:
+    linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(20, 184, 166, 0.15)),
+    repeating-linear-gradient(30deg, rgba(15, 118, 110, 0.16) 0 2px, transparent 2px 28px),
+    #fff7ed;
 }
 
 .app-info {
@@ -279,25 +269,23 @@ const navigateTo = (path) => {
 }
 
 .app-title {
-  font-family: 'Orbitron', sans-serif;
   font-size: 1.6rem;
   font-weight: bold;
-  color: white;
+  color: #12343b;
   margin-bottom: 12px;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .app-desc {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #5f7375;
   line-height: 1.6;
 }
 
 .app-button {
-  background: linear-gradient(90deg, #0088ff, #00b2ff);
+  background: linear-gradient(135deg, var(--travel-teal), var(--travel-mint));
   color: white;
-  padding: 12px 28px;
-  border-radius: 30px;
+  padding: 12px 24px;
+  border-radius: 999px;
   font-weight: 500;
   transition: all 0.3s;
   margin-top: auto;
@@ -305,7 +293,8 @@ const navigateTo = (path) => {
   align-items: center;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 240, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.2);
 }
 
 .app-button::before {
@@ -320,7 +309,7 @@ const navigateTo = (path) => {
 }
 
 .app-button:hover {
-  box-shadow: 0 0 15px rgba(0, 178, 255, 0.7);
+  box-shadow: 0 14px 28px rgba(15, 118, 110, 0.25);
   transform: scale(1.05);
 }
 
@@ -342,121 +331,26 @@ const navigateTo = (path) => {
   transform: translateX(4px);
 }
 
-/* 背景圆圈动画 */
-.cyber-circles {
+.travel-notes {
   position: absolute;
-  top: 0;
+  top: 330px;
   left: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.circle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.15;
-}
-
-.circle-1 {
-  width: 300px;
-  height: 300px;
-  top: -100px;
-  right: -100px;
-  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-  animation: float 15s infinite alternate;
-}
-
-.circle-2 {
-  width: 500px;
-  height: 500px;
-  bottom: -200px;
-  left: -200px;
-  background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-  animation: float 20s infinite alternate-reverse;
-}
-
-.circle-3 {
-  width: 200px;
-  height: 200px;
-  top: 40%;
-  right: 15%;
-  background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
-  animation: float 12s infinite alternate;
-}
-
-/* 动画效果 */
-@keyframes float {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  100% {
-    transform: translate(50px, 50px) rotate(10deg);
-  }
-}
-
-@keyframes glitch {
-  0% {
-    text-shadow: 
-      0 0 5px rgba(0, 240, 255, 0.7),
-      0 0 10px rgba(0, 240, 255, 0.5);
-  }
-  50% {
-    text-shadow: 
-      0 0 5px rgba(0, 240, 255, 0.7),
-      0 0 10px rgba(0, 240, 255, 0.5),
-      0 0 20px rgba(0, 240, 255, 0.3);
-  }
-  100% {
-    text-shadow: 
-      0 0 5px rgba(0, 240, 255, 0.7),
-      0 0 10px rgba(0, 240, 255, 0.5);
-  }
-}
-
-@keyframes glitch-anim {
-  0%, 100% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-5px, 5px);
-  }
-  40% {
-    transform: translate(-5px, -5px);
-  }
-  60% {
-    transform: translate(5px, 5px);
-  }
-  80% {
-    transform: translate(5px, -5px);
-  }
-}
-
-@keyframes glitch-anim-2 {
-  0%, 100% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(3px, -3px);
-  }
-  40% {
-    transform: translate(3px, 3px);
-  }
-  60% {
-    transform: translate(-3px, -3px);
-  }
-  80% {
-    transform: translate(-3px, 3px);
-  }
+.travel-notes span {
+  color: rgba(15, 118, 110, 0.12);
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .glitch-title {
-    font-size: 2.5rem;
-  }
-  
   .subtitle {
     font-size: 1rem;
   }
@@ -471,21 +365,11 @@ const navigateTo = (path) => {
     max-width: 420px;
     padding: 25px;
   }
-  
-  .app-icon {
-    font-size: 3.5rem;
-    width: 80px;
-    height: 80px;
-  }
 }
 
 @media (max-width: 480px) {
   .header {
     padding: 50px 15px 40px;
-  }
-  
-  .glitch-title {
-    font-size: 2rem;
   }
   
   .subtitle {
@@ -501,12 +385,10 @@ const navigateTo = (path) => {
   .app-card {
     padding: 20px;
   }
-  
-  .app-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    width: 70px;
-    height: 70px;
+
+  .card-media {
+    height: 140px;
+    font-size: 3.5rem;
   }
   
   .app-title {
@@ -517,8 +399,8 @@ const navigateTo = (path) => {
     font-size: 0.9rem;
   }
   
-  .circle-1, .circle-2, .circle-3 {
-    opacity: 0.1;
+  .travel-notes {
+    display: none;
   }
 }
 </style> 

@@ -1,55 +1,86 @@
-# AI智能体应用平台前端
+# GoodDream 的 AI 旅小智前端
 
-这是一个基于Vue3开发的AI智能体应用平台，包含两个核心应用：AI恋爱大师和AI超级智能体。
+这是 GoodDream 的 AI 旅行助手项目前端界面，基于 Vue 3 和 Vite 开发。项目以“旅游规划”为主题，提供两个入口：`AI旅小智` 和 `AI超级旅小智`，用户可以通过聊天的方式咨询旅行问题、获取路线建议或生成更完整的旅游攻略。
 
-## 功能特点
+## 界面概览
 
-- 💬 **AI恋爱大师**：智能情感顾问，为用户提供恋爱相关的建议和解答
-- 🤖 **AI超级智能体**：全能型AI助手，解决各类专业问题
+首页采用清爽的旅行视觉风格，背景由山、湖面、日出等元素组成，整体色彩以青绿色和暖橙色为主，突出轻松出行和智能规划的感觉。页面中间有两个功能卡片：
+
+- `AI旅小智`：适合日常旅行咨询，例如景点推荐、路线建议、出行注意事项等。
+- `AI超级旅小智`：适合更复杂的旅行规划，例如生成完整旅游攻略、整理行程方案、输出可下载文件等。
+
+点击首页卡片中的“立即体验”按钮，即可进入对应聊天页面。
+
+## AI旅小智页面
+
+`AI旅小智` 是轻量级旅行问答界面。页面顶部包含返回按钮、当前应用标题和会话 ID，方便用户确认当前对话。聊天区域使用简洁的大卡片布局，AI 消息位于左侧，输入框固定在底部。
+
+这个页面适合快速询问旅行相关问题，例如：
+
+- 某个城市有哪些值得去的景点？
+- 周末两日游怎么安排？
+- 去某地旅行需要注意什么？
+- 帮我推荐一条轻松一点的路线。
+
+## AI超级旅小智页面
+
+`AI超级旅小智` 面向更完整的旅行任务。它同样采用聊天式交互，但定位更偏向“旅行规划助手”，可以处理更长、更复杂的需求。
+
+例如你可以输入：
+
+```text
+搜索南昌旅游景点，编写一个 PDF 文件给我，并提供下载链接
+```
+
+它更适合用于生成完整攻略、整理旅行计划、规划多步骤任务等场景。
 
 ## 技术栈
 
-- Vue3
+- Vue 3
 - Vue Router
+- Vite
 - Axios
-- SSE (Server-Sent Events)
+- SSE（Server-Sent Events）
 
-## 开发说明
+## 本地运行
 
-### 环境要求
-
-- Node.js >= 16.0.0
-- npm >= 7.0.0
-
-### 安装依赖
+安装依赖：
 
 ```bash
 npm install
 ```
 
-### 启动开发服务器
+启动开发服务：
 
 ```bash
 npm run dev
 ```
 
-### 构建项目
+构建生产版本：
 
 ```bash
 npm run build
 ```
 
+默认开发地址通常为：
+
+```text
+http://localhost:3000
+```
+
 ## 后端接口
 
-项目依赖以下后端接口：
+前端通过 SSE 与后端进行流式对话通信，主要接口包括：
 
-- `/api/ai/love_app/chat/sse` - AI恋爱大师聊天接口
-- `/api/ai/manus/chat` - AI超级智能体聊天接口
+- `/api/ai/love_app/chat/sse`：AI旅小智聊天接口
+- `/api/ai/manus/chat`：AI超级旅小智聊天接口
 
-后端服务默认运行在 `http://localhost:8123`
+开发环境下默认后端地址为：
 
-# Vue 3 + Vite
+```text
+http://localhost:8123
+```
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 项目定位
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+这个前端界面的目标不是做一个复杂的管理后台，而是为用户提供一个轻量、直观、有旅行氛围的 AI 对话入口。第一次进入页面时，用户可以直接理解这是一个旅游助手，并通过两个卡片快速选择普通旅行咨询或高级旅行规划。

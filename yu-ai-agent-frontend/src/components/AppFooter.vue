@@ -44,10 +44,11 @@ const currentYear = computed(() => new Date().getFullYear())
 
 <style scoped>
 .app-footer {
-  background-color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), #ffffff);
   padding: 40px 0 20px;
-  color: #666;
-  border-top: 1px solid #eee;
+  color: #5f7375;
+  border-top: 1px solid rgba(15, 118, 110, 0.12);
   width: 100%;
   margin-top: auto;
   position: relative;
@@ -73,13 +74,13 @@ const currentYear = computed(() => new Date().getFullYear())
 .footer-logo h3 {
   font-size: 1.25rem;
   margin-bottom: 15px;
-  color: #333;
+  color: #12343b;
 }
 
 .footer-section h4 {
   font-size: 1rem;
   margin-bottom: 15px;
-  color: #333;
+  color: #12343b;
 }
 
 .footer-links {
@@ -89,13 +90,13 @@ const currentYear = computed(() => new Date().getFullYear())
 
 .footer-links a {
   margin-bottom: 10px;
-  color: #666;
+  color: #5f7375;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .footer-links a:hover {
-  color: #007bff;
+  color: #0f766e;
 }
 
 .qrcode {

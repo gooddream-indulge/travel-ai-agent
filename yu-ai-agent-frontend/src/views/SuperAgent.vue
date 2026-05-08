@@ -180,7 +180,9 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f9fbff;
+  background:
+    radial-gradient(circle at 85% 8%, rgba(249, 115, 22, 0.14), transparent 28%),
+    linear-gradient(180deg, #ecfeff 0%, #fff7ed 48%, #ffffff 100%);
 }
 
 .header {
@@ -188,9 +190,11 @@ onBeforeUnmount(() => {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 16px 24px;
-  background-color: #3f51b5;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.84);
+  color: #12343b;
+  box-shadow: 0 10px 30px rgba(15, 82, 86, 0.08);
+  border-bottom: 1px solid rgba(15, 118, 110, 0.12);
+  backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -203,6 +207,8 @@ onBeforeUnmount(() => {
   align-items: center;
   transition: opacity 0.2s;
   justify-self: start;
+  color: #0f766e;
+  font-weight: 600;
 }
 
 .back-button:hover {
@@ -220,6 +226,7 @@ onBeforeUnmount(() => {
   margin: 0;
   text-align: center;
   justify-self: center;
+  color: #12343b;
 }
 
 .placeholder {
@@ -235,12 +242,16 @@ onBeforeUnmount(() => {
 
 .chat-area {
   flex: 1;
-  padding: 16px;
+  padding: 24px 16px;
   overflow: hidden;
   position: relative;
   /* 设置最小高度确保内容显示正常 */
   min-height: calc(100vh - 56px - 180px); /* 100vh减去头部高度和页脚高度 */
   margin-bottom: 16px; /* 为页脚留出空间 */
+  max-width: 1060px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer-container {

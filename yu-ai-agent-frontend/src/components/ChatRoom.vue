@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, nextTick, watch, computed } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
 import AiAvatarFallback from './AiAvatarFallback.vue'
 
 const props = defineProps({
@@ -75,13 +75,6 @@ const emit = defineEmits(['send-message'])
 
 const inputMessage = ref('')
 const messagesContainer = ref(null)
-
-// 根据AI类型选择不同头像
-const aiAvatar = computed(() => {
-  return props.aiType === 'love' 
-    ? '/ai-love-avatar.png'  // 恋爱大师头像
-    : '/ai-super-avatar.png' // 超级智能体头像
-})
 
 // 发送消息
 const sendMessage = () => {
@@ -123,26 +116,31 @@ onMounted(() => {
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 70vh;
+  height: 72vh;
   min-height: 600px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 250, 248, 0.96)),
+    radial-gradient(circle at 8% 10%, rgba(20, 184, 166, 0.13), transparent 28%),
+    radial-gradient(circle at 90% 18%, rgba(251, 191, 36, 0.16), transparent 24%);
+  border: 1px solid rgba(15, 118, 110, 0.13);
+  border-radius: 22px;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 24px 60px rgba(15, 82, 86, 0.13);
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
-  padding-bottom: 80px; /* 为输入框留出空间 */
+  padding: 22px;
+  padding-bottom: 88px; /* 为输入框留出空间 */
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 72px; /* 与输入框高度相匹配 */
+  bottom: 76px; /* 与输入框高度相匹配 */
 }
 
 .message-wrapper {
@@ -169,8 +167,8 @@ onMounted(() => {
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
@@ -193,31 +191,33 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
   color: white;
   font-weight: bold;
 }
 
 .message-bubble {
-  padding: 12px;
+  padding: 12px 14px;
   border-radius: 18px;
   position: relative;
   word-wrap: break-word;
   min-width: 100px; /* 最小宽度 */
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 .user-message .message-bubble {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #0f766e, #0d9488);
   color: white;
   border-bottom-right-radius: 4px;
   text-align: left;
 }
 
 .ai-message .message-bubble {
-  background-color: #e9e9eb;
-  color: #333;
+  background-color: #ffffff;
+  color: #2f3b45;
   border-bottom-left-radius: 4px;
   text-align: left;
+  border: 1px solid rgba(20, 184, 166, 0.12);
 }
 
 .message-content {
@@ -238,11 +238,12 @@ onMounted(() => {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: white;
-  border-top: 1px solid #e0e0e0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(15, 118, 110, 0.12);
   z-index: 100;
-  height: 72px; /* 固定高度 */
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  height: 76px; /* 固定高度 */
+  box-shadow: 0 -10px 30px rgba(15, 82, 86, 0.08);
 }
 
 .chat-input {
@@ -255,8 +256,8 @@ onMounted(() => {
 
 .input-box {
   flex-grow: 1;
-  border: 1px solid #ddd;
-  border-radius: 20px;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 18px;
   padding: 10px 16px;
   font-size: 16px;
   resize: none;
@@ -267,6 +268,8 @@ onMounted(() => {
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE & Edge */
+  background-color: #f8fcfb;
+  color: #1f2937;
 }
 
 /* 隐藏Webkit浏览器的滚动条 */
@@ -275,15 +278,16 @@ onMounted(() => {
 }
 
 .input-box:focus {
-  border-color: #007bff;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
 }
 
 .send-button {
   margin-left: 12px;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #f59e0b, #f97316);
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 18px;
   padding: 0 20px;
   font-size: 16px;
   cursor: pointer;
@@ -293,7 +297,8 @@ onMounted(() => {
 }
 
 .send-button:hover:not(:disabled) {
-  background-color: #0069d9;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  transform: translateY(-1px);
 }
 
 .typing-indicator {
