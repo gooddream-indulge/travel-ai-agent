@@ -29,7 +29,7 @@ class PDFGenerationToolOssIT {
     void generatePdf_uploadToOss_thenDeleteLocal() {
         PDFGenerationTool tool = new PDFGenerationTool(ossStorageService);
         String fileName = "oss-integration-test.pdf";
-        String content = "OSS integration test content";
+        String content = "杭州很好玩呀";
 
         String result = tool.generatePDF(fileName, content);
         assertNotNull(result);

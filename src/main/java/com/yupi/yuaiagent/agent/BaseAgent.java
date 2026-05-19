@@ -235,9 +235,6 @@ public abstract class BaseAgent {
         if (StrUtil.isBlank(stepResult)) {
             return null;
         }
-        if (stepResult.contains("doTerminate")) {
-            return null;
-        }
         int urlStart = stepResult.indexOf("http");
         if (urlStart < 0) {
             return null;

@@ -19,7 +19,7 @@ class YuManusTest {
 //                并以 PDF 格式输出，要求生成中文PDF
 //                """;
         String userPrompt = """
-                搜索杭州景点，编写一个PDF文件给我，我要url链接。
+                搜索杭州的一个景点，编写一个txt文件给我，我要url链接。
                 """;
         String answer = yuManus.run(userPrompt);
         Assertions.assertNotNull(answer);

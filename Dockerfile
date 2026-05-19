@@ -6,6 +6,13 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
+# 安装中文字体（最小变更）
+RUN yum -y install fontconfig curl \
+    && mkdir -p /usr/share/fonts/noto \
+    && curl -L -o /usr/share/fonts/noto/NotoSansCJKsc-Regular.otf https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf \
+    && fc-cache -f \
+    && yum clean all
+
 # 使用 Maven 执行打包
 RUN mvn clean package -DskipTests
 
